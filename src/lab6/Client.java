@@ -2,13 +2,13 @@ package lab6;
 
 import java.util.Date;
 
-public class Client {
+public abstract class Client {
 	private int id;
 	private String name;
 	private float balance;
 	private Account[] accounts;
-	private float commissionRate = 0;
-	private float interestRate = 0;
+	protected final float commissionRate = 0;
+	protected final float interestRate = 0;
 	private Logger logger;
 
 	public Client(int id, String name, float balance) {
@@ -70,9 +70,9 @@ public class Client {
 		return null;
 	}
 
-	public void removeAccount(int id) {
+	public void removeAccount(Account account) {
 		for (int i = 0; i < accounts.length; i++) {
-			if (accounts[i].getId() == id) {
+			if (accounts[i].equals(account)) {
 				accounts[i] = null;
 				Log removeAccountLog = new Log(new Date().getTime(), this.id, 0, "client removed");
 				logger.log(removeAccountLog);
@@ -87,6 +87,7 @@ public class Client {
 
 	public void withdraw(float amount) {
 		setBalance(this.balance - (amount + (amount * commissionRate)));
+		Bank.updateTotalCommission(amount);
 	}
 
 	public void autoUpdateAccounts() {
@@ -107,4 +108,13 @@ public class Client {
 		return fortune;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Client) {
+			if (this.getId() == ((Client) obj).getId()) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

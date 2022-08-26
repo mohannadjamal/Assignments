@@ -27,4 +27,13 @@ public class Account {
 	public int getId() {
 		return id;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Account) {
+			if(this.getId() == ((Account) obj).getId())
+				return true;
+		}
+		return false;
+	}
 }

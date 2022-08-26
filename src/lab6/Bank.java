@@ -6,9 +6,22 @@ public class Bank {
 	private Client[] clients;
 	private Logger logService;
 	// private ? accountUpdater;
+	private static Bank single_instance = null;
+	private static float totalCommission;
 
 	public Bank() {
 		clients = new Client[100];
+	}
+
+	public static Bank getInstance() {
+		if (single_instance == null) {
+			single_instance = new Bank();
+		}
+		return single_instance;
+	}
+
+	public static void updateTotalCommission(float commission) {
+		totalCommission = commission;
 	}
 
 	public float getBalance() {
@@ -18,7 +31,7 @@ public class Bank {
 		}
 		return totalBalance;
 	}
-
+	
 	public void addClient(Client client) {
 		for (int i = 0; i < clients.length; i++) {
 			if (clients[i] == null) {
@@ -32,9 +45,9 @@ public class Bank {
 		}
 	}
 
-	public void removeClient(int id) {
+	public void removeClient(Client client) {
 		for (int i = 0; i < clients.length; i++) {
-			if (clients[i].getId() == id) {
+			if (clients[i].equals(client)) {
 				clients[i] = null;
 
 				Log removeClientLog = new Log(new Date().getTime(), clients[i].getId(), 0, "client removed");
@@ -45,6 +58,12 @@ public class Bank {
 		}
 	}
 
+	public void printClientList() {
+		for (Client client : clients) {
+			System.out.println(client.toString());
+		}
+	}
+
 	public Client[] getClients() {
 		return clients;
 	}
@@ -52,8 +71,8 @@ public class Bank {
 	public void viewLogs() {
 
 	}
-	
+
 	public void startAccountUpdater() {
-		
+
 	}
 }

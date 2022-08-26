@@ -8,7 +8,7 @@ public class Logger {
 		this.driverName = driverName;
 	}
 
-	public void log(Log log) {
+	public static void log(Log log) {
 		System.out.println(log.getData());
 	}
 
